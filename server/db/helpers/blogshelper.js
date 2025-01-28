@@ -59,42 +59,5 @@ const _bytesToString = (bytes) => {
     return string;
 };
 
-const updateBlog = async (blog_id, updatedBlog) => {
-    try {
-        const query = `
-        UPDATE blogs
-        SET
-        blog_title = $1,
-        blog_post = $2,
-        blog_image = $3
-        WHERE blog_id = ${blog_id}
-        RETURNING *;
-        `;
-        const values =
-        [
-            updatedBlog.blog_title,
-            updatedBlog.blog_post,
-            updatedBlog.blog_image
-        ]
-        const { rows: [blog], } = await client.query(query, values);
 
-        return blog;
-    } catch (error) {
-        throw error;
-    }
-};
-
-const deleteBlog = async (blog_id) => {
-    try {
-        const { rows: [blog], }
-        = await client.query(`
-        DELETE 
-        FROM blogs
-        WHERE blog_id = ${blog_id};
-        `);
-        } catch (error) {
-         throw error;
-    }
-};
-
-module.exports = { createBlog, getAllBlogs, getSingleBlog, updateBlog, deleteBlog }
+module.exports = { createBlog, getAllBlogs, getSingleBlog }

@@ -59,41 +59,4 @@ const _bytesToString = (bytes) => {
     return string;
 };
 
-const updateProject = async (project_id, updatedProject) => {
-    try {
-        const query = `
-        UPDATE projects
-        SET
-        project_title = $1,
-        project_post = $2,
-        project_image = $3
-        WHERE project_id = ${project_id}
-        RETURNING *;
-        `;
-        const values =
-        [
-            updatedProject.project_title,
-            updatedProject.project_post,
-            updatedProject.project_image
-        ]
-        const { rows: [project], } = await client.query(query, values);
-        return project;
-    } catch (error) {
-        throw error;
-    }
-};
-
-const deleteProject = async (project_id) => {
-    try {
-        const { rows: [project], }
-        = await client.query(`
-        DELETE 
-        FROM projects
-        WHERE project_id = ${project_id};
-        `);
-        } catch (error) {
-         throw error;
-    }
-};
-
-module.exports = { createProject, getAllProjects, getSingleProject, updateProject, deleteProject }
+module.exports = { createProject, getAllProjects, getSingleProject }

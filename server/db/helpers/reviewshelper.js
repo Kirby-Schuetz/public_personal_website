@@ -59,41 +59,4 @@ const _bytesToString = (bytes) => {
     return string;
 }
 
-const updateReview = async (review_id, updatedReview) => {
-    try {
-        const query = `
-        UPDATE reviews
-        SET
-        review_title = $1,
-        review_post = $2,
-        review_image = $3
-        WHERE review_id = ${review_id}
-        RETURNING *;
-        `;
-        const values =
-        [
-            updatedReview.review_title,
-            updatedReview.review_post,
-            updatedReview.review_image
-        ]
-        const { rows: [review], } = await client.query(query, values);
-        return review;
-    } catch (error) {
-        throw error;
-    }
-}
-
-const deleteReview = async (review_id) => {
-    try {
-        const { rows: [review], }
-        = await client.query(`
-        DELETE 
-        FROM reviews
-        WHERE review_id = ${review_id};
-        `);
-        } catch (error) {
-         throw error;
-    }
-}
-
-module.exports = { createReview, getAllReviews, getSingleReview, updateReview, deleteReview }
+module.exports = { createReview, getAllReviews, getSingleReview }

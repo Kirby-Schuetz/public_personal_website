@@ -1,18 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createReview, getAllReviews, getSingleReview, updateReview, deleteReview } = require('../db/helpers/reviewshelper');
-
-// POST new review
-router.post('/', async (req, res, next) => {
-    try{
-        console.log("Express route: ", req.body);
-        const review = await createReview(req.body);
-        res.send(review);
-    } catch(error) {
-        next(error);
-    }
-});
+const { getAllReviews, getSingleReview } = require('../db/helpers/reviewshelper');
 
 // GET all reviews
 router.get('/', async (req, res, next) => {
@@ -35,29 +24,6 @@ router.get('/:review_id', async (req, res, next) => {
         next(error);
     }
 })
-
-// PUT update review
-router.put('/:review_id/edit', async (req, res, next) => {
-    const reviewId = req.params.review_id;
-    const updatedReview = req.body;
-    try{
-        const updatedReviewFromDB = await updateReview(reviewId, updatedReview);
-        res.status(200).json({message: 'Review post updated successfully'});
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({message: 'Internal server error'});
-    }
-});
-
-// DELETE review
-router.delete('/:review_id', async (req, res, next) => {
-    try{
-        const review = await deleteReview(req.params.review_id);
-        res.send(review);
-    } catch (error) {
-        next(error);
-    }
-});
 
 // export router
 module.exports = router;
